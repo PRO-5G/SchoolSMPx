@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolSMP | доска</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a4f2e;
+            font-family: 'Comic Neue', 'Segoe UI', 'Chalkboard SE', 'Comic Sans MS', cursive;
+            min-height: 100vh;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* ЗЕЛЁНАЯ ДОСКА */
+        .blackboard {
+            background: #1e5a30;
+            background-image: radial-gradient(circle at 10% 20%, rgba(0,0,0,0.1) 2%, transparent 2.5%);
+            background-size: 28px 28px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), inset 0 1px 4px rgba(255,255,255,0.2);
+            padding: 40px 30px;
+            max-width: 1300px;
+            margin: 0 auto;
+            border: 12px solid #8b5a2b;
+            position: relative;
+        }
+
+        /* рамка как у доски */
+        .blackboard::before {
+            content: "";
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 2px solid #c98a3e;
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        /* МЕЛОВЫЕ НАДПИСИ */
+        h1, h2, h3, p, li, .price, .badge, .event-name, .event-date, .owners, .donate-card h4 {
+            color: #f5f0d1;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+            font-weight: 500;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            text-align: center;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+            font-family: 'Chalkboard SE', 'Comic Sans MS', cursive;
+        }
+
+        .sub {
+            text-align: center;
+            font-size: 1.2rem;
+            opacity: 0.85;
+            margin-bottom: 40px;
+            border-bottom: 1px dashed #d4c88a;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            padding-bottom: 6px;
+        }
+
+        /* сетка */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        /* блоки как на доске (мелом нарисованные рамки) */
+        .chalk-card {
+            background: rgba(0,0,0,0.2);
+            border: 2px solid #e8dfb0;
+            border-radius: 24px;
+            padding: 22px;
+            backdrop-filter: blur(1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .chalk-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+            border-left: 4px solid #f0e68c;
+            padding-left: 12px;
+        }
+
+        .chalk-card ul {
+            list-style: none;
+        }
+
+        .chalk-card li {
+            margin: 12px 0;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px dotted #b8ae7a;
+            padding-bottom: 6px;
+        }
+
+        /* донат таблица мелом */
+        .donate-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .donate-chalk {
+            background: rgba(0,0,0,0.25);
+            border: 2px solid #e8dfb0;
+            border-radius: 32px;
+            padding: 24px;
+            text-align: center;
+            flex: 1;
+            min-width: 210px;
+        }
+
+        .price {
+            font-size: 2rem;
+            margin: 12px 0;
+            color: #ffe5a3;
+        }
+
+        .chalk-btn {
+            background: rgba(255,255,200,0.15);
+            border: 1px solid #f0e68c;
+            padding: 8px 24px;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-family: inherit;
+            color: #fff2c9;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: 0.1s;
+        }
+
+        .chalk-btn:active {
+            background: rgba(255,255,200,0.3);
+        }
+
+        /* статус и владельцы как мелом на уголке */
+        .chalk-line {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: rgba(0,0,0,0.2);
+            padding: 12px 20px;
+            border-radius: 60px;
+            margin-bottom: 35px;
+            border: 1px solid #ddd0a0;
+        }
+
+        .badge-chalk {
+            font-size: 0.9rem;
+        }
+
+        /* ивент-лист */
+        .event-list-chalk {
+            background: rgba(0,0,0,0.2);
+            border-radius: 28px;
+            padding: 24px;
+            margin: 40px 0;
+            border: 1px solid #e0d4a0;
+        }
+
+        .event-item {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            padding: 14px 0;
+            border-bottom: 1px dashed #b8ae7a;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #c9bc82;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 700px) {
+            .blackboard { padding: 20px 16px; }
+            h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="blackboard">
+    <h1>🏫 SchoolSMP</h1>
+    <div style="text-align: center;">
+        <div class="sub">✧  школьный сервер  ✧</div>
+    </div>
+
+    <!-- строка с владельцами и статусом -->
+    <div class="chalk-line">
+        <span class="badge-chalk">👑 PRO_5G — владелец</span>
+        <span class="badge-chalk">🔨 VienxD — зам. владельца</span>
+        <span class="badge-chalk">📌 статус: готовим запуск</span>
+        <span class="badge-chalk">🎮 игроков: 0 (сервер не работает)</span>
+    </div>
+
+    <!-- Ивенты + турниры + розыгрыши -->
+    <div class="grid">
+        <div class="chalk-card">
+            <h3>⚔️ ИВЕНТЫ</h3>
+            <ul>
+                <li>🏆 PvP 1x1 (алмазный меч)</li>
+                <li>🧱 Build Battle «Школа будущего»</li>
+                <li>🎯 охота на PRO_5G</li>
+                <li>🏎️ гонки на лошадях</li>
+                <li>🔫 рейд на крепость (команды 3х3)</li>
+            </ul>
+        </div>
+        <div class="chalk-card">
+            <h3>🎲 РОЗЫГРЫШИ</h3>
+            <ul>
+                <li>🎁 VIP — каждый месяц</li>
+                <li>💎 64 алмаза (топ ивента)</li>
+                <li>🏠 готовый дом у спавна</li>
+                <li>🔮 кастомный никнейм</li>
+            </ul>
+        </div>
+        <div class="chalk-card">
+            <h3>🏅 ТУРНИРЫ</h3>
+            <ul>
+                <li>🥇 элитраса (500 блоков)</li>
+                <li>🥈 дуэль на лопатах</li>
+                <li>🥉 кто первый найдет незерит</li>
+                <li>🏅 мемный турнир «построй алмаз»</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ДОНАТ VIP И PREMIUM -->
+    <h2 style="text-align: center; margin: 30px 0 20px;">💎 ПОДДЕРЖКА</h2>
+    <div class="donate-flex">
+        <div class="donate-chalk">
+            <h3>VIP</h3>
+            <div class="price">199 ₽</div>
+            <ul style="list-style: none; text-align: left; margin-top: 15px;">
+                <li>✓ /kit vip (алмазы + еда)</li>
+                <li>✓ цветной ник</li>
+                <li>✓ приватный сундук</li>
+                <li>✓ /fly в креативе</li>
+            </ul>
+            <button class="chalk-btn" onclick="alert('Оплата владельцу PRO_5G. Напиши в лс (школа/личка)')">🧾 купить мел</button>
+        </div>
+        <div class="donate-chalk">
+            <h3>PREMIUM</h3>
+            <div class="price">399 ₽</div>
+            <ul style="list-style: none; text-align: left; margin-top: 15px;">
+                <li>✓ всё из VIP</li>
+                <li>✓ /hat (блок на голову)</li>
+                <li>✓ 3 приватных сундука</li>
+                <li>✓ эффект частиц</li>
+                <li>✓ регион 20x20</li>
+            </ul>
+            <button class="chalk-btn" onclick="alert('Оплата владельцу PRO_5G. Напиши в лс')">🧾 купить мел</button>
+        </div>
+    </div>
+    <p style="text-align: center; font-size: 0.7rem; opacity: 0.7;">*донат добровольный, помогает серверу</p>
+
+    <!-- Ближайший ивент -->
+    <div class="event-list-chalk">
+        <h3 style="margin-bottom: 20px;">📅 ПЕРВЫЙ ИВЕНТ (после запуска)</h3>
+        <div class="event-item">
+            <span class="event-name">🎯 «НАЙДИ АЛМАЗ ЗА 10 МИНУТ»</span>
+            <span class="event-date">🏆 VIP на 30 дней</span>
+        </div>
+        <div class="event-item">
+            <span class="event-name">⚔️ БИТВА НА МЕЧАХ (без брони)</span>
+            <span class="event-date">💎 10 алмазов</span>
+        </div>
+        <div class="event-item">
+            <span class="event-name">🎁 розыгрыш среди всех кто зашел на старте</span>
+            <span class="event-date">⭐ PREMIUM на месяц</span>
+        </div>
+    </div>
+
+    <!-- IP -->
+    <div style="background: rgba(0,0,0,0.2); border-radius: 60px; padding: 14px 24px; text-align: center; margin: 25px 0; border: 1px solid #ddd0a0;">
+        <span style="font-family: monospace; font-size: 1.3rem;">🌐 IP: появится после запуска</span>
+        <div style="font-size: 0.7rem;">сейчас сервер в разработке</div>
+    </div>
+
+    <footer>
+        ✦ SchoolSMP | владельцы PRO_5G, VienxD | ивенты, турниры, розыгрыши, донат VIP/PREMIUM ✦
+    </footer>
+</div>
+
+</body>
+</html>
