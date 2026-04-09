@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>School SMP | Майнкрафт сервер</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, 'Minecraft', sans-serif;
+            background: linear-gradient(145deg, #0a2f1f 0%, #051a0e 100%);
+            color: #f0f4e8;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* Блочный стиль, как у кубов */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Шапка с градиентом травы */
+        header {
+            background: rgba(10, 35, 20, 0.85);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid #6b8c42;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 0 #2c4c1e;
+        }
+
+        .logo span {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #f0f4e8;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            border-bottom-color: #a9d46e;
+            color: #d9ffa0;
+        }
+
+        /* Герой */
+        .hero {
+            padding: 80px 0 100px;
+            text-align: center;
+            background: radial-gradient(circle at 10% 30%, rgba(35, 80, 40, 0.5), transparent);
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px 0 #1e3a1a;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 32px;
+            opacity: 0.9;
+        }
+
+        .ip-card {
+            background: #1f2a1bcc;
+            backdrop-filter: blur(4px);
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 28px;
+            border-radius: 60px;
+            border: 1px solid #8cb35e;
+            font-size: 1.5rem;
+            font-weight: 600;
+            font-family: monospace;
+            margin-top: 16px;
+        }
+
+        .ip-card button {
+            background: #6b8c42;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+
+        .ip-card button:hover {
+            background: #8fb45a;
+            transform: scale(1.02);
+        }
+
+        /* сетка особенностей */
+        .features {
+            padding: 80px 0;
+            background: #0e2318;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 56px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #8bc34a;
+            margin: 12px auto 0;
+            border-radius: 4px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: #1f3527;
+            padding: 28px 20px;
+            border-radius: 32px;
+            text-align: center;
+            transition: 0.2s;
+            border: 1px solid #457a3b;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            background: #2c4635;
+            border-color: #9bcd6c;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.7rem;
+            margin-bottom: 12px;
+        }
+
+        /* правила */
+        .rules {
+            padding: 80px 0;
+            background: #0c1f15;
+        }
+
+        .rules-list {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #1e3327;
+            padding: 32px 40px;
+            border-radius: 48px;
+            border-left: 8px solid #8bc34a;
+        }
+
+        .rules-list li {
+            margin: 16px 0;
+            font-size: 1.1rem;
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .rules-list li::before {
+            content: "⛏️";
+            font-size: 1.3rem;
+        }
+
+        /* онлайн игроки */
+        .online-status {
+            padding: 60px 0;
+            background: #0e2a1c;
+            text-align: center;
+        }
+
+        .status-badge {
+            background: #2f4d2d;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 32px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            margin-bottom: 32px;
+        }
+
+        .green-dot {
+            width: 14px;
+            height: 14px;
+            background: #6fef6f;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 6px #8eff8e;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(0.9);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        /* форма заявки */
+        .apply {
+            padding: 80px 0;
+            background: #102819;
+        }
+
+        .form-box {
+            max-width: 550px;
+            margin: 0 auto;
+            background: #1c3528;
+            padding: 36px 32px;
+            border-radius: 48px;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: #2e473b;
+            border: 1px solid #5e8966;
+            border-radius: 28px;
+            font-size: 1rem;
+            color: white;
+            font-family: inherit;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #b3e67c;
+            background: #1f3d2f;
+        }
+
+        button[type="submit"] {
+            background: #6b8c42;
+            width: 100%;
+            padding: 14px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 40px;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button[type="submit"]:hover {
+            background: #86ac56;
+            transform: scale(1.01);
+        }
+
+        footer {
+            background: #05180e;
+            text-align: center;
+            padding: 32px;
+            font-size: 0.85rem;
+            border-top: 1px solid #2c4a2c;
+        }
+
+        @media (max-width: 700px) {
+            .hero h1 { font-size: 2.3rem; }
+            .ip-card { flex-direction: column; font-size: 1.1rem; }
+            .nav { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="nav">
+            <div class="logo">
+                <span>⛏️</span> SchoolSMP
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Особенности</a></li>
+                <li><a href="#rules">Правила</a></li>
+                <li><a href="#apply">Заявка</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="hero">
+        <div class="container">
+            <h1>🏫 School SMP<br>Твой школьный выживание</h1>
+            <p>Дружный ванильный сервер для учеников и учителей. Строй, дружи, не грифери — у нас свои порядки, но без скуки!</p>
+            <div class="ip-card" id="ipBlock">
+                <span>📡 play.schoolsmp.ru</span>
+                <button id="copyIpBtn">Копировать IP</button>
+            </div>
+            <div style="margin-top: 25px;">
+                <span class="green-dot"></span> Сервер онлайн • 1.20.4 — 1.21
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">🍃 Почему наш SMP?</h2>
+            <div class="grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Приват зон</h3>
+                    <p>Защити свои постройки — грифинг запрещён и быстро наказывается.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Школьные кланы</h3>
+                    <p>Создавай команды классов, участвуй в ивентах и получай награды.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Экономика + магазин</h3>
+                    <p>Внутриигровая валюта, аукцион и свой рынок у спавна.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>События каждую неделю</h3>
+                    <p>Бинго, гонки, PvP-турниры и строительный конкурс.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="rules" class="rules">
+        <div class="container">
+            <h2 class="section-title">📜 Кодекс School SMP</h2>
+            <div class="rules-list">
+                <li>Не гриферить и не воровать из чужих сундуков</li>
+                <li>Без читов, x-ray и дюпов — честная игра</li>
+                <li>Уважай других игроков, без токсичности и буллинга</li>
+                <li>Строить можно в любом биоме, кроме зоны спавна</li>
+                <li>PvP только по согласию, кроме арены</li>
+                <li>Варны и муты за нарушение — но мы за дружбу!</li>
+            </div>
+        </div>
+    </section>
+
+    <section class="online-status">
+        <div class="container">
+            <div class="status-badge">
+                <span class="green-dot"></span> <strong>Сейчас онлайн:</strong> <span id="onlineCount">12</span> игроков
+            </div>
+            <p>✨ Присоединяйся к школьному комьюнити — мы ждём именно тебя!</p>
+        </div>
+    </section>
+
+    <section id="apply" class="apply">
+        <div class="container">
+            <h2 class="section-title">📝 Заявка на вход</h2>
+            <div class="form-box">
+                <p style="margin-bottom: 24px; text-align: center;">Расскажи о себе — и через пару минут ты уже в игре!</p>
+                <form id="applyForm">
+                    <div class="form-group">
+                        <input type="text" id="nickname" placeholder="Твой ник в Minecraft" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="classNumber" placeholder="Класс / школа (например, 9-А)" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="3" id="about" placeholder="Почему хочешь играть на School SMP?"></textarea>
+                    </div>
+                    <button type="submit">🚀 Отправить заявку</button>
+                </form>
+                <div id="formMessage" style="margin-top: 18px; text-align: center; font-size: 0.9rem;"></div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container">
+        <p>© 2025 School SMP — некоммерческий школьный проект. Майнкрафт версия Java & Bedrock (Geyser).</p>
+        <p>💬 Дискорд: discord.gg/schoolsmp (пока тестовый) | Админ: @SchoolMaster</p>
+    </div>
+</footer>
+
+<script>
+    // Копирование IP
+    const copyBtn = document.getElementById('copyIpBtn');
+    const ipText = document.querySelector('#ipBlock span')?.innerText || 'play.schoolsmp.ru';
+
+    copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(ipText).then(() => {
+            const originalText = copyBtn.innerText;
+            copyBtn.innerText = '✅ Скопировано!';
+            setTimeout(() => {
+                copyBtn.innerText = originalText;
+            }, 1800);
+        }).catch(() => {
+            alert('Не удалось скопировать, но IP: ' + ipText);
+        });
+    });
+
+    // Имитация онлайна — рандом от 8 до 24 игроков, обновляем раз в минуту
+    function updateOnlineCount() {
+        const onlineSpan = document.getElementById('onlineCount');
+        if (onlineSpan) {
+            const fakeOnline = Math.floor(Math.random() * (24 - 8 + 1) + 8);
+            onlineSpan.innerText = fakeOnline;
+        }
+    }
+    updateOnlineCount();
+    setInterval(updateOnlineCount, 60000); // каждую минуту
+
+    // Обработка формы заявки (демо, без реального бэка)
+    const form = document.getElementById('applyForm');
+    const messageDiv = document.getElementById('formMessage');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nickname = document.getElementById('nickname').value.trim();
+        const classNumber = document.getElementById('classNumber').value.trim();
+        const about = document.getElementById('about').value.trim();
+
+        if (!nickname || !classNumber) {
+            messageDiv.innerHTML = '⚠️ Укажи ник и класс!';
+            messageDiv.style.color = '#ffbc6e';
+            return;
+        }
+
+        // Имитация отправки (можно заменить на реальный запрос позже)
+        messageDiv.innerHTML = `🎉 Спасибо, ${nickname}! Твоя заявка принята. Заходи на сервер через 5 минут!`;
+        messageDiv.style.color = '#c3f0a8';
+        form.reset();
+
+        // опционально — сброс сообщения через 5 секунд
+        setTimeout(() => {
+            if (messageDiv.innerHTML.includes('Спасибо')) {
+                messageDiv.innerHTML = '';
+            }
+        }, 5000);
+    });
+
+    // Плавная прокрутка для ссылок меню
+    document.querySelectorAll('.nav-links a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetId = href.substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
